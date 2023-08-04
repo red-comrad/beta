@@ -1,0 +1,100 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+html {
+  font-size: 14px;
+}
+
+button {
+  background-color: rgb(67, 192, 182);
+  color: black;
+  border: none;
+  font-size: 1.5rem;
+  padding: 5px 10px;
+}
+
+input {
+  background-color: transparent;
+  color: rgb(38, 112, 106);
+  border: 1px solid rgb(1, 133, 122);
+  font-size: 1.5rem;
+  padding: 5px 10px;
+}
+
+.link--action {
+  text-decoration: underline;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container .container__header {
+  min-height: 100px;
+  color: rgb(67, 192, 182);
+  background-color: rgb(63, 63, 63);
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  position: relative;
+}
+.container .container__header img {
+  max-width: 60px;
+  max-height: 60px;
+  margin-right: 10px;
+}
+.container .container__header .link--action {
+  right: 0px;
+  margin-left: auto;
+  font-size: 1.4rem;
+}
+.container .container__header .link--action a {
+  color: rgb(67, 192, 182);
+  text-decoration: none;
+}
+.container .container__body {
+  flex: 1;
+  background-image: url(../resource/bg.jpg);
+  background-size: cover;
+  display: flex;
+  padding: 20px 30px;
+}
+.container .container__body .container__body__content {
+  font-size: 3rem;
+  text-align: center;
+  margin: auto;
+}
+.container .container__footer {
+  min-height: 100px;
+  color: rgb(67, 192, 182);
+  background-color: rgb(63, 63, 63);
+  padding: 5px 10px;
+}
+.container .font--massive {
+  font-size: 3rem;
+}
+.container .font--sub-massive {
+  font-size: 2.3rem;
+}
+
+form {
+  width: fit-content;
+}
+form input {
+  margin: 10px 0px;
+}
+form .font--lighter {
+  color: rgb(132, 239, 243);
+}
+form button {
+  margin: 10px 0px;
+  color: white;
+}
+
+/*# sourceMappingURL=style.css.map */
