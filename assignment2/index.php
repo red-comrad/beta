@@ -5,7 +5,7 @@
         $ret = isset($_SESSION['username']);
         $lst_time = $_SESSION["first_login"];
         $cur_time = $_SERVER["REQUEST_TIME"];
-        if($cur_time - $lst_time > 5)
+        if($cur_time - $lst_time > 120)
         {
             $_SESSION = [];
             session_destroy();
@@ -19,7 +19,7 @@
     {
         if(isset( $_POST["name"]) and isset($_POST["email"]))
         {
-            $_POST["email-sub-sucess"] = true;
+            $_POST["email-sub-success"] = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
         }
     }
 ?>
@@ -55,7 +55,14 @@
                 <?php
                     if($_SERVER['REQUEST_METHOD'] == "POST")
                     {
-                        echo "THANK YOU ". strtoupper($_POST["name"]) . " FOR SUBSCRIBING TO OUR EMAILING LIST <BR>";
+                        if($_POST["email-sub-success"])
+                        {
+                            echo "THANK YOU ". strtoupper($_POST["name"]) . " FOR SUBSCRIBING TO OUR EMAILING LIST <BR>";
+                        }
+                        else
+                        {
+                            echo "EMAIL SUBSCRIBSION FAILED!<BR>PLEASE TRY AGAIN<BR>";
+                        }
                     }
                     else if(is_auth())
                         echo "WELCOME " . strtoupper($_SESSION["username"]);
