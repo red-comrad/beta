@@ -1,3 +1,12 @@
+<?php
+    function is_auth()
+    {
+        session_start();
+        $ret = isset($_SESSION['username']);
+        return $ret;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,17 +21,27 @@
 <body>
     <div class="container">
         <div class="container__header">
-            <img src="resource/logo.png" alt=""><span class="font--massive">DEV COMMUNITY</span><span class="link--action"><a href="logout.php">logout</a></span>
+            <img src="resource/logo.png" alt=""><span class="font--massive">DEV COMMUNITY</span>
+            <?php
+                if(is_auth())
+                {
+                    ?> <span class="link--action"><a href="logout.php">logout</a></span> <?php
+                }
+                else
+                {
+                    ?> <span class="link--action"><a href="login.php">login</a></span> <?php
+                }
+            ?>
         </div>
         <div class="container__body">
-            <form action="post">
-                <div class="form__heading font--massive">
-                    LOGIN
-                </div>
-                <input type="text" placeholder="username"/><br>
-                <input type="text" placeholder="password"/><br>
-                <button type="submit">SUBMIT</button>
-            </form>
+            <div class="container__body__content">
+                <?php
+                    if(is_auth())
+                        echo "WELCOME " . strtoupper($_SESSION["username"]);
+                    else
+                        echo "YOU ARE NOT LOGGED IN";
+                ?>
+            </div>
         </div>
         <div class="container__footer font--sub-massive">
             SUBCRIBE TO OUR NEWSLETTER
