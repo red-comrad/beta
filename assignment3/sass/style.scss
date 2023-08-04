@@ -10,7 +10,12 @@ html {
     font-size: 14px;
 }
 
-button{
+a {
+    color: rgb(67, 192, 182);
+    text-decoration: none;
+}
+
+button {
     background-color: rgb(67, 192, 182);
     color: black;
     border: none;
@@ -18,7 +23,7 @@ button{
     padding: 5px 10px;
 }
 
-input{
+input {
     background-color: transparent;
     color: rgb(38, 112, 106);
     border: 1px solid rgb(1, 133, 122);
@@ -26,7 +31,7 @@ input{
     padding: 5px 10px;
 }
 
-.link--action{
+.link--action {
     text-decoration: underline;
 }
 
@@ -34,6 +39,7 @@ input{
     height: 100vh;
     display: flex;
     flex-direction: column;
+
     .container__header {
         min-height: 100px;
         color: rgb(67, 192, 182);
@@ -42,33 +48,38 @@ input{
         align-items: center;
         padding: 5px 10px;
         position: relative;
-        img{
+
+        img {
             max-width: 60px;
             max-height: 60px;
             margin-right: 10px;
         }
-        .link--action{
+
+        .link--action {
             right: 0px;
             margin-left: auto;
             font-size: 1.4rem;
             display: flex;
             align-items: center;
-            a{
-                color: rgb(67, 192, 182);;
+
+            a {
+                color: rgb(67, 192, 182);
+                ;
                 text-decoration: none;
                 padding: 0px 5px;
             }
-            .process--circle{
+
+            .process--circle {
                 position: relative;
                 width: 50px;
                 height: 50px;
                 border-radius: 50%;
-                box-shadow: 0px 0px 5px;
                 margin: 0px 10px;
+                box-shadow: 0px 0px 5px;
                 background: conic-gradient(rgb(29, 227, 234) 0.00% 40.00%, rgb(63, 63, 63) 40.00%);
             }
-            
-            .process--circle::after{
+
+            .process--circle::after {
                 content: "";
                 position: absolute;
                 width: 75%;
@@ -78,7 +89,7 @@ input{
                 top: 50%;
                 left: 50%;
                 border-radius: 50%;
-                box-shadow: 0px 0px 4px;
+                box-shadow: 0px 0px 2px;
             }
         }
     }
@@ -89,7 +100,8 @@ input{
         background-size: cover;
         display: flex;
         padding: 20px 30px;
-        .container__body__content{
+
+        .container__body__content {
             font-size: 3rem;
             text-align: center;
             margin: auto;
@@ -112,17 +124,18 @@ input{
     }
 }
 
-form{
+form {
     width: fit-content;
-    input{
+
+    input {
         margin: 10px 0px;
     }
 
-    .font--lighter{
+    .font--lighter {
         color: rgb(132, 239, 243);
     }
 
-    button{
+    button {
         margin: 10px 0px;
         color: white;
     }

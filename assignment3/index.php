@@ -30,7 +30,7 @@
 <body>
     <div class="container">
         <div class="container__header">
-            <img src="resource/logo.png" alt=""><span class="font--massive">DEV COMMUNITY</span>
+            <img src="resource/logo.png" alt=""><span class="font--massive"><a href="index.php">DEV COMMUNITY</a></span>
             <?php
                 if(is_auth())
                 {
