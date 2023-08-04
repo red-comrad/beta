@@ -3,6 +3,14 @@
     {
         session_start();
         $ret = isset($_SESSION['username']);
+        $lst_time = $_SESSION["first_login"];
+        $cur_time = $_SERVER["REQUEST_TIME"];
+        if($cur_time - $lst_time > 5)
+        {
+            $_SESSION = [];
+            session_destroy();
+            header("location: login.php");
+        }
         return $ret;
     }
 

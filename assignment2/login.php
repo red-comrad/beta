@@ -18,6 +18,7 @@
                 {
                     $row = $ret->fetch_assoc();
                     $_SESSION["username"] = $row["full_name"];
+                    $_SESSION["first_login"] = $_SERVER["REQUEST_TIME"];
                     header("Location: index.php");
                 }
                 else
