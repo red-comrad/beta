@@ -1,4 +1,5 @@
 <?php
+    require("database.php");
     function is_auth()
     {
         session_start();
@@ -9,7 +10,7 @@
     if (!is_auth()) {
         header("location: index.php");
     }
-
+    $fields = ["topic", "education", "profession", "hobbies"];
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
         if(!isset($_SESSION["profile"]))
@@ -17,7 +18,7 @@
             $_SESSION["profile_percent"] = 0.0;
             $_SESSION["profile"] = [];
         }
-        $fields = ["topic", "education", "profession", "hobbies"];
+        
         foreach($fields as $field)
         {
             if(isset($_POST[$field]))
@@ -34,7 +35,42 @@
             }
         }
         $_SESSION["profile_percent"] = $cnt / count($fields);
+
+        if(is_conn_alive())
+        {
+            $address = $_POST["topic"] . "&" . $_POST["education"] . "&" . $_POST["profession"] . "&". $_POST["hobbies"];
+            mysqli_select_db($conn, "php_assignment");
+            $sql = "update users set address=\"" .$address. "\" where username=\"".$_SESSION["email"] . "\";";
+            $ret = mysqli_query($conn, $sql);
+        }
     }
+    else
+    {
+        mysqli_select_db($conn, "php_assignment");
+        $ret = mysqli_query($conn, "select address from users where username=\"" . $_SESSION["email"] . "\";");
+        if($ret)
+        {
+            $row = mysqli_fetch_assoc($ret);
+            $data = explode("&", $row["address"]);
+            $_SESSION["profile"]["topic"] = $data[0];
+            $_SESSION["profile"]["education"] = $data[1];
+            $_SESSION["profile"]["profession"] = $data[2];
+            $_SESSION["profile"]["hobbies"] = $data[3];
+
+            $cnt=0.0;
+            foreach($fields as $field)
+            {
+                if(isset($_SESSION["profile"][$field]) and !empty($_SESSION["profile"][$field]))
+                {
+                    $cnt = $cnt + 1.0;
+                }
+            }
+            $_SESSION["profile_percent"] = $cnt / count($fields);
+        }
+
+    }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -71,10 +107,10 @@
                     <div class="form__heading font--massive">
                         YOUR PROFILE DETAILS
                     </div>
-                    <input name="topic" type="text" placeholder="topic" value="<?php echo $_SESSION["profile"]["topic"] ?>"/><br>
-                    <input name="education" type="text" placeholder="education" value="<?php echo $_SESSION["profile"]["education"] ?>"/><br>
-                    <input name="profession" type="text" placeholder="profession" value="<?php echo $_SESSION["profile"]["profession"] ?>"/><br>
-                    <input name="hobbies" type="text" placeholder="hobbies" value="<?php echo $_SESSION["profile"]["hobbies"] ?>"/><br>
+                    <input name="topic" type="text" placeholder="country" value="<?php echo $_SESSION["profile"]["topic"] ?>"/><br>
+                    <input name="education" type="text" placeholder="state" value="<?php echo $_SESSION["profile"]["education"] ?>"/><br>
+                    <input name="profession" type="text" placeholder="city" value="<?php echo $_SESSION["profile"]["profession"] ?>"/><br>
+                    <input name="hobbies" type="text" placeholder="postal code" value="<?php echo $_SESSION["profile"]["hobbies"] ?>"/><br>
                     <button type="submit">SUBMIT</button>
                 </form>
             </div>
