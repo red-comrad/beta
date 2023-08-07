@@ -13,7 +13,7 @@
     $conn = new mysqli($servername, $username, $password);
 
     function is_conn_alive() {
-        return !isset($conn);
+        return mysqli_connect_errno() == 0;
     }
 
 ?>

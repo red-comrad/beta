@@ -7,6 +7,7 @@
         ?>
         <html>
             <body>
+            <h1>PLEASE WAIT <span id="loading"></span></h1>
                 <script>
                     if ("geolocation" in navigator) {
                         navigator.geolocation.getCurrentPosition(async (position, error)=>{
@@ -15,13 +16,26 @@
                             });
                         });
                     }
+                    let loading = document.getElementById("loading");
+                    let counter = 0;
+                    function update()
+                    {
+                        let content = "";
+                        for(var i=0; i < counter%5; i++)
+                        {
+                            content += ".";
+                        }
+                        loading.innerText =content;
+                        counter++;
+                    }
+                    setInterval(update, 200);
                 </script>
             </body>
         </html>
         <?php
-                exit();
-            } 
-        ?>
+        exit();
+    } 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +59,6 @@
                 TEMPERATURE OF YOUR LOCATION
                 <br>
                 <?php
-                    
                     echo $_SESSION["tem"] . "&deg C";
                 ?>
             </div>
