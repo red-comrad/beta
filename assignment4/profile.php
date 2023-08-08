@@ -10,7 +10,7 @@
     if (!is_auth()) {
         header("location: index.php");
     }
-    $fields = ["topic", "education", "profession", "hobbies"];
+    $fields = ["country", "city"];
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
         if(!isset($_SESSION["profile"]))
@@ -38,7 +38,7 @@
 
         if(is_conn_alive())
         {
-            $address = $_POST["topic"] . "&" . $_POST["education"] . "&" . $_POST["profession"] . "&". $_POST["hobbies"];
+            $address = $_POST["country"] . "&" . $_POST["city"];
             mysqli_select_db($conn, "php_assignment");
             $sql = "update users set address=\"" .$address. "\" where username=\"".$_SESSION["email"] . "\";";
             $ret = mysqli_query($conn, $sql);
@@ -52,10 +52,8 @@
         {
             $row = mysqli_fetch_assoc($ret);
             $data = explode("&", $row["address"]);
-            $_SESSION["profile"]["topic"] = $data[0];
-            $_SESSION["profile"]["education"] = $data[1];
-            $_SESSION["profile"]["profession"] = $data[2];
-            $_SESSION["profile"]["hobbies"] = $data[3];
+            $_SESSION["profile"]["country"] = $data[0];
+            $_SESSION["profile"]["city"] = $data[1];
 
             $cnt=0.0;
             foreach($fields as $field)
@@ -69,6 +67,7 @@
         }
 
     }
+
 
 
 ?>
@@ -107,13 +106,18 @@
                     <div class="form__heading font--massive">
                         YOUR PROFILE DETAILS
                     </div>
-                    <input name="topic" type="text" placeholder="country" value="<?php echo $_SESSION["profile"]["topic"] ?>"/><br>
-                    <input name="education" type="text" placeholder="state" value="<?php echo $_SESSION["profile"]["education"] ?>"/><br>
-                    <input name="profession" type="text" placeholder="city" value="<?php echo $_SESSION["profile"]["profession"] ?>"/><br>
-                    <input name="hobbies" type="text" placeholder="postal code" value="<?php echo $_SESSION["profile"]["hobbies"] ?>"/><br>
+                    <select name="country" id="country">
+                        <option value="">SELECT COUNTRY</option>
+                    </select><br>
+                    <select name="city" id="city">
+                        <option value="">SELECT CITY</option>
+                    </select><br>
                     <button type="submit">SUBMIT</button>
                 </form>
             </div>
+            <div id="output">
+
+    </div>
         </div>
         <div class="container__footer font--sub-massive">
             SUBCRIBE TO OUR NEWSLETTER
@@ -125,6 +129,90 @@
             </form>
         </div>
     </div>
+    <script>
+        let country = document.getElementById("country");
+        let city = document.getElementById("city");
+        let info = [<?php echo "\"" . $_SESSION["profile"]["country"] . "\""; ?>, <?php echo "\"" . $_SESSION["profile"]["city"] . "\""; ?>];
+        
+        async function update()
+        {
+            city.innerHTML = "<option value=\"\">SELECT CITY</option>";
+            info[0] = country.value;
+            info[1] = city.value;
+            if(info[0] == "")
+            {
+                let data = await fetch("info.php");
+                data = await data.json();
+                for(var i=0; i<data.length; i++)
+                {
+                    let node = document.createElement("option");
+                    node.innerHTML = data[i];
+                    node.setAttribute("value", data[i]);
+                    country.appendChild(node);
+                }
+            }
+            if(info[0] != "")
+            {
+                let data = await fetch("info.php?country=" + info[0]);
+                data = await data.json();
+                for(var i=0; i < data.length; i++)
+                {
+                    let node = document.createElement("option");
+                    node.innerHTML = data[i];
+                    node.setAttribute("value", data[i]);
+                    city.appendChild(node);
+                }
+            }
+        }
+        country.addEventListener("change", update);
+
+        async function profile_init()
+        {
+            city.innerHTML = "<option value=\"\">SELECT CITY</option>";
+            let data = await fetch("info.php");
+            data = await data.json();
+            for(var i=0; i<data.length; i++)
+            {
+                let node = document.createElement("option");
+                node.innerHTML = data[i];
+                node.setAttribute("value", data[i]);
+                country.appendChild(node);
+            }
+            if(info[0] != "")
+            {
+                let data = await fetch("info.php?country=" + info[0]);
+                data = await data.json();
+                for(var i=0; i < data.length; i++)
+                {
+                    let node = document.createElement("option");
+                    node.innerHTML = data[i];
+                    node.setAttribute("value", data[i]);
+                    city.appendChild(node);
+                }
+            }
+            console.log(info);
+            let options = country.getElementsByTagName('option');
+            for(var i=0; i < options.length; i++)
+            {
+                if(options[i].value == info[0])
+                {
+                    options[i].selected = true;
+                    country.value = info[0];
+                }
+            }
+            options = city.getElementsByTagName('option');
+            for(var i=0; i < options.length; i++)
+            {
+                if(options[i].value == info[1])
+                {
+                    options[i].selected = true;
+                    city.value = info[1];
+                }
+            }
+        }
+        profile_init();
+    </script>
+    <?php  echo var_dump($_SESSION); ?>
 </body>
 
 </html>
